@@ -11,9 +11,12 @@ import com.regula.facesdk.model.results.FaceCaptureResponse
 
 class MainActivity : AppCompatActivity() {
 
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
 
         findViewById<TextInputView>(R.id.inputPassword).setInputTypePassWord()
         findViewById<TextInputView>(R.id.inputPassword).setHint("Password")
