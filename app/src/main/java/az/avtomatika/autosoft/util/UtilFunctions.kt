@@ -15,6 +15,7 @@ import android.provider.Settings.Secure
 import android.util.Base64
 import az.avtomatika.autosoft.util.helper.LocationHelper
 import com.google.android.gms.location.LocationServices
+
 import com.google.android.gms.tasks.CancellationToken
 import com.google.android.gms.tasks.CancellationTokenSource
 import com.google.android.gms.tasks.OnTokenCanceledListener

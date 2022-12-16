@@ -44,7 +44,6 @@ class FaceMatchingActivity : BaseActivity<ActivityFaceMatchingBinding>(), View.O
     }
 
     private fun initViews() {
-        views.faceGuideLayout.visibility = View.VISIBLE
         views.btnStartCapture.setOnClickListener(this)
     }
 
@@ -74,7 +73,7 @@ class FaceMatchingActivity : BaseActivity<ActivityFaceMatchingBinding>(), View.O
                     loadingDown(FACE_OPERATION_TYPE.MATCH_SUCCESS)
                     val similarity = split.matchedFaces[0].similarity
                     val similarityPercent = String.format("%.2f", similarity * 100)
-                    views.similatiryText.text = "Oxşarlıq dərəcəsi: $similarityPercent%"
+                    views.similatiryText.text = "Melumantlar doğrulandı\\n \\n Oxşarlıq dərəcəsi: $similarityPercent%"
                 } else {
                     loadingDown(FACE_OPERATION_TYPE.MATCH_ERROR)
                     views.similatiryText.text = "Biomentrik məlumat tapılmadı"
@@ -85,34 +84,26 @@ class FaceMatchingActivity : BaseActivity<ActivityFaceMatchingBinding>(), View.O
     }
 
     private fun loadingUp(){
-        views.operationLayout.visibility = View.VISIBLE
-        views.loadingAnimation.visibility = View.VISIBLE
-        views.resultAnimation.visibility = View.GONE
-        views.loadingInfoText.visibility = View.VISIBLE
-        views.faceGuideLayout.visibility = View.GONE
-        views.similatiryText.visibility = View.GONE
         views.btnStartCapture.alpha = 0.5F
         views.btnStartCapture.isEnabled = false
+        views.guideLayout.visibility = View.GONE
+        views.loadingLayout.visibility = View.VISIBLE
     }
 
     private fun loadingDown(type: FACE_OPERATION_TYPE){
-        views.operationLayout.visibility = View.VISIBLE
-        views.loadingAnimation.visibility = View.GONE
+
         views.btnStartCapture.alpha = 1.0F
         views.btnStartCapture.isEnabled = true
         views.btnStartCapture.text = "Bir daha cəhd et"
-        views.resultAnimation.visibility = View.VISIBLE
-        views.loadingInfoText.visibility = View.GONE
+        views.loadingLayout.visibility = View.GONE
+        views.guideLayout.visibility = View.GONE
+        views.resultLayout.visibility = View.VISIBLE
 
         if (type==FACE_OPERATION_TYPE.MATCH_SUCCESS){
             views.resultAnimation.setAnimation(R.raw.icon_success_anim)
-            views.resultAnimation.visibility= View.VISIBLE
-            views.similatiryText.visibility = View.VISIBLE
         }
         else{
             views.resultAnimation.setAnimation(R.raw.icon_failed_anim)
-            views.resultAnimation.visibility= View.VISIBLE
-            views.similatiryText.visibility = View.GONE
         }
     }
 

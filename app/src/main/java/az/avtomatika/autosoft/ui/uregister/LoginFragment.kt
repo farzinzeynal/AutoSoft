@@ -19,14 +19,12 @@ class LoginFragment: BaseFragment<FragmentLoginBinding>(FragmentLoginBinding::in
 
 
 
-        views.startCapture.setOnClickListener {
+        views.btnLogin.setOnClickListener {
             val intn = Intent(requireActivity(), FaceMatchingActivity::class.java)
             startActivityForResult(intn, FACE_MATCHING_REQUEST_CODE)
         }
 
-        views.btnLogin.setOnClickListener {
-            MainPopupDialog.infoAlert(requireContext(), MainPopupDialog.InfoDatas("Diqqət","İnternet bağlantısı yoxdur"))
-        }
+
 
 
     }
