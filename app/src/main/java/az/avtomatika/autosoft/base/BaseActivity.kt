@@ -40,7 +40,7 @@ abstract class BaseActivity <B : ViewBinding> : AppCompatActivity(),
 
 
 
-    companion object LoadObj {
+    companion object LoadindObj {
         private val _loading: MutableLiveData<Int> = MutableLiveData(0)
         val loading: LiveData<Int> = _loading
         fun loadingUp() {
@@ -53,9 +53,6 @@ abstract class BaseActivity <B : ViewBinding> : AppCompatActivity(),
     }
 
 
-    override fun onBackPressed() {
-
-    }
 
     open fun onViewBindingCreated(savedInstanceState: Bundle?) {}
 

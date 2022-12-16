@@ -2,7 +2,15 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.INTERNET"/>
+
+
+
     <application
+        android:name=".MainAppication"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -12,8 +20,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AutoSoft"
         tools:targetApi="31">
+
         <activity
-            android:name=".ui.MainActivity"
+            android:name=".ui.uregister.UnregisterActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -25,6 +34,19 @@
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
+
+
+        <activity
+            android:name=".ui.main.MainActivity"
+            android:exported="true">
+        </activity>
+
+        <activity
+            android:name=".ui.main.face_matching.FaceMatchingActivity"
+            android:exported="true">
+        </activity>
+
+
     </application>
 
 </manifest>
