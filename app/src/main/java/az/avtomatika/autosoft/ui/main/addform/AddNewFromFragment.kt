@@ -13,6 +13,7 @@ import az.avtomatika.autosoft.base.BaseFragment
 import az.avtomatika.autosoft.databinding.FragmentAddNewFormBinding
 import az.avtomatika.autosoft.util.helper.LocationHelper
 import az.avtomatika.autosoft.util.UtilFunctions
+import org.json.JSONObject
 
 class AddNewFromFragment :
     BaseFragment<FragmentAddNewFormBinding>(FragmentAddNewFormBinding::inflate) {
