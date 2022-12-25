@@ -11,12 +11,13 @@
         android:id="@+id/guideLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="80dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="220dp"
         android:orientation="vertical"
-        android:visibility="visible">
+        android:visibility="visible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <com.airbnb.lottie.LottieAnimationView
             android:id="@+id/faceAnimationView"
@@ -26,117 +27,61 @@
             app:lottie_autoPlay="true"
             app:lottie_loop="true"
             app:lottie_rawRes="@raw/face_reco_anim">
-        </com.airbnb.lottie.LottieAnimationView
->
+        </com.airbnb.lottie.LottieAnimationView>
 
         <TextView
             android:id="@+id/infoText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="40dp"
             android:layout_marginHorizontal="80dp"
-            app:lottie_autoPlay="true"
+            android:layout_marginTop="40dp"
+            android:gravity="center"
+            android:text="Kameraya düz şəkildə baxaraq biometrik məlumatlarınızı doğrulayın"
             android:textColor="@color/black"
             android:textSize="18sp"
-            android:gravity="center"
-            android:text="Kameraya düz şəkildə baxaraq biometrik məlumatlarınızı doğrulayın">
+            app:lottie_autoPlay="true">
 
         </TextView>
 
     </LinearLayout>
 
+
+    
     <LinearLayout
-        android:id="@+id/loadingLayout"
+        android:id="@+id/btnsLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:layout_marginTop="80dp"
-        android:visibility="gone"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <com.airbnb.lottie.LottieAnimationView
-            android:id="@+id/loadingAnimation"
-            android:layout_width="200dp"
-            android:layout_height="200dp"
-            android:layout_gravity="center_horizontal"
-            app:lottie_autoPlay="true"
-            app:lottie_loop="true"
-            app:lottie_rawRes="@raw/loading_anim">
-        </com.airbnb.lottie.LottieAnimationView>
-
-
-        <TextView
-            android:id="@+id/loadingInfoText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="40dp"
-            android:layout_marginHorizontal="80dp"
-            app:lottie_autoPlay="true"
-            android:textColor="@color/black"
-            android:textSize="18sp"
-            android:gravity="center"
-            android:text="Biometrik melumatlar yoxlanılır...\nZəhmət olmasa gözləyin">
-        </TextView>
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/resultLayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="80dp"
-        android:orientation="vertical"
-        android:visibility="gone"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <com.airbnb.lottie.LottieAnimationView
-            android:id="@+id/resultAnimation"
-            android:layout_width="160dp"
-            android:layout_height="160dp"
-            android:layout_gravity="center_horizontal"
-            app:lottie_autoPlay="true"
-            app:lottie_rawRes="@raw/icon_success_anim">
-        </com.airbnb.lottie.LottieAnimationView>
-
-        <TextView
-            android:id="@+id/similatiryText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="40dp"
-            android:layout_marginHorizontal="80dp"
-            app:lottie_autoPlay="true"
-            android:textColor="@color/black"
-            android:textSize="18sp"
-            android:visibility="gone"
-            android:gravity="center"
-            android:text="Melumantlar doğrulandı\n \n Oxşarlıq dərəcəsi: 99%">
-        </TextView>
-
-    </LinearLayout>
-
-
-    <Button
-        android:id="@+id/btnStartCapture"
-        android:layout_width="match_parent"
-        android:layout_height="65dp"
-        android:text="Başla"
-        android:textAllCaps="false"
-        android:textSize="17sp"
-        android:gravity="center"
-        android:layout_marginHorizontal="30dp"
-        android:layout_marginBottom="50dp"
-        android:paddingRight="50dp"
-        android:drawableLeft="@drawable/ic_baseline_photo_camera_24"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginHorizontal="30dp"
+        android:layout_marginBottom="50dp"
         app:layout_constraintStart_toStartOf="parent">
-    </Button>
+        <Button
+            android:id="@+id/btnStartCapture"
+            android:layout_width="match_parent"
+            android:layout_height="65dp"
+            android:text="Başla"
+            android:textAllCaps="false"
+            android:textSize="17sp"
+            android:gravity="center"
+            android:paddingRight="50dp"
+            android:drawableLeft="@drawable/ic_baseline_photo_camera_24">
+        </Button>
+
+        <Button
+            android:id="@+id/btnFinishMatch"
+            android:layout_width="match_parent"
+            android:layout_height="65dp"
+            android:text="Bitir"
+            android:visibility="gone"
+            android:textAllCaps="false"
+            android:textSize="17sp"
+            android:gravity="center">
+        </Button>
+
+    </LinearLayout>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

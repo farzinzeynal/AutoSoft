@@ -60,7 +60,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="25dp"
-                android:layout_marginTop="25dp">
+                android:layout_marginTop="35dp">
 
             </az.avtomatika.autosoft.component.TextInputView>
 
@@ -69,59 +69,20 @@
                 android:id="@+id/inputPassword"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
                 android:layout_marginHorizontal="25dp">
 
             </az.avtomatika.autosoft.component.TextInputView>
 
-            <LinearLayout
-                android:id="@+id/startCapture"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:paddingHorizontal="10dp"
-                android:background="@drawable/custom_border"
-                android:layout_marginVertical="25dp"
-                android:layout_marginHorizontal="30dp">
 
-                <ImageView
-                    android:layout_width="50dp"
-                    android:layout_height="60dp"
-                    android:padding="6dp"
-                    android:layout_gravity="center_horizontal"
-                    android:scaleType="fitXY"
-                    android:src="@drawable/ic_face_reco">
-                </ImageView>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="18sp"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginStart="20dp"
-                    android:text="Biometrik doğrulama">
-
-                </TextView>
-
-                <ImageView
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:layout_gravity="center_vertical"
-                    android:scaleType="fitXY"
-                    android:layout_marginStart="10dp"
-                    android:src="@drawable/ic_success_new">
-                </ImageView>
-
-
-
-            </LinearLayout>
 
             <Button
                 android:id="@+id/btnLogin"
                 style="@style/round_button_style"
-                android:layout_width="132dp"
+                android:layout_width="160dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="40dp"
                 android:layout_marginBottom="20dp"
                 android:text="Daxil ol"
                 android:textColor="@color/white"

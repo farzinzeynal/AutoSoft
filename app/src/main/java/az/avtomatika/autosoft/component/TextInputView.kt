@@ -41,6 +41,10 @@ class TextInputView : RelativeLayout, View.OnFocusChangeListener{
         textInputLayout.hint = hintText
     }
 
+    fun getText(): String {
+        return textInputLayout.editText?.text.toString()
+    }
+
 
 
 

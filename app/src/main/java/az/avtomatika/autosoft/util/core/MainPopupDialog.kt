@@ -8,6 +8,8 @@ import android.widget.TextView
 import androidx.annotation.Keep
 import androidx.appcompat.app.AlertDialog
 import az.avtomatika.autosoft.R
+import az.avtomatika.autosoft.util.PopupAnimTypes
+import com.airbnb.lottie.LottieAnimationView
 
 object MainPopupDialog {
 
@@ -39,7 +41,7 @@ object MainPopupDialog {
         var okButtonTitle: String? = null
     )
 
-    fun infoAlert(context: Context, infoDatas: InfoDatas, eventHandler: InfoPopUpDismissListener? = null) {
+    fun infoAlert(context: Context, infoDatas: InfoDatas, eventHandler: InfoPopUpDismissListener? = null, animType:PopupAnimTypes) {
 
         try {
             if (infoAlert != null && infoAlert?.isShowing == true){
@@ -53,6 +55,20 @@ object MainPopupDialog {
         val infoOkBtn: Button = view.findViewById(R.id.info_ok)
         val infoTitle: TextView = view.findViewById(R.id.info_title)
         val infoMessage: TextView = view.findViewById(R.id.info_message)
+        val dialogAnimation: LottieAnimationView = view.findViewById(R.id.dialogAnimation)
+
+        when(animType){
+            PopupAnimTypes.SUCCES ->{
+                dialogAnimation.setAnimation(R.raw.icon_success_anim)
+            }
+            PopupAnimTypes.ERROR ->{
+                dialogAnimation.setAnimation(R.raw.icon_failed_anim)
+            }
+            PopupAnimTypes.WARNING ->{
+                dialogAnimation.setAnimation(R.raw.warning_anim)
+            }
+        }
+
         infoTitle.text = infoDatas.title
         infoMessage.text = infoDatas.message
         infoAlert = builder.create()

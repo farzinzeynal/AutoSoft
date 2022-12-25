@@ -36,39 +36,7 @@ object UtilFunctions {
     }
 
 
-    @SuppressLint("MissingPermission")
-    fun getUserCurrentLocation(
-        activity: Activity,
-        onLocationSet: (LocationHelper.LocationModel) -> Unit
-    ) {
-        var locationModel: LocationHelper.LocationModel? = null
-        var list: MutableList<Address>? = null
-        val mFusedLocationClient = LocationServices.getFusedLocationProviderClient(activity)
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-            mFusedLocationClient.getCurrentLocation(
-                LocationRequest.QUALITY_HIGH_ACCURACY,
-                object : CancellationToken() {
-                    override fun onCanceledRequested(p0: OnTokenCanceledListener) =
-                        CancellationTokenSource().token
 
-                    override fun isCancellationRequested() = false
-                })
-                .addOnSuccessListener { location: Location? ->
-                    if (location != null) {
-                        val geocoder = Geocoder(activity, Locale.getDefault())
-                        list = geocoder.getFromLocation(location.latitude, location.longitude, 1)
-
-                        locationModel = LocationHelper.LocationModel(
-                            list?.get(0)?.latitude.toString(),
-                            list?.get(0)?.longitude.toString(),
-                            list?.get(0)?.getAddressLine(0).toString()
-                        )
-
-                        locationModel?.let{ onLocationSet(it) }
-                    }
-                }
-        }
-    }
 
 
     fun decodeBase64(inputBase64: String?): Bitmap? {

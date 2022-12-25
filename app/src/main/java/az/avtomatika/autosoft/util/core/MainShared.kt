@@ -64,9 +64,3 @@ class MainShared (context: Context, SharedPref: SharedTypes) {
     }
 }
 
-enum class SharedTypes {
-    COMMON,
-    DEVICE_IFNO,
-    USER_SETTINGS,
-    AUTH
-}

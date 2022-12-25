@@ -3,6 +3,7 @@ package az.avtomatika.autosoft.util.helper
 import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkInfo
+import az.avtomatika.autosoft.util.PopupAnimTypes
 import az.avtomatika.autosoft.util.core.MainPopupDialog
 
 object NetworkHelper {
@@ -20,6 +21,6 @@ object NetworkHelper {
     }
 
     fun notifyNetwork(context: Context){
-        MainPopupDialog.infoAlert(context, MainPopupDialog.InfoDatas("Diqqət","İnternet bağlantısı yoxdur"))
+        MainPopupDialog.infoAlert(context, MainPopupDialog.InfoDatas("Diqqət","İnternet bağlantısı yoxdur"), animType = PopupAnimTypes.ERROR)
     }
 }

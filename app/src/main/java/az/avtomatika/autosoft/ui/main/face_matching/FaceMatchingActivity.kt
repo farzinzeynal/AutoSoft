@@ -1,16 +1,16 @@
 package az.avtomatika.autosoft.ui.main.face_matching
 
+import android.content.Intent
 import android.graphics.Bitmap
 import android.os.Bundle
-import android.provider.SyncStateContract
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import az.avtomatika.autosoft.R
 import az.avtomatika.autosoft.base.BaseActivity
 import az.avtomatika.autosoft.databinding.ActivityFaceMatchingBinding
-import az.avtomatika.autosoft.util.Constants.FACE_MATCHING_REQUEST_CODE
 import az.avtomatika.autosoft.util.Constants.USER_IMAGE
-import az.avtomatika.autosoft.util.FACE_OPERATION_TYPE
+import az.avtomatika.autosoft.util.FaceOperationTypes
 import az.avtomatika.autosoft.util.UtilFunctions.decodeBase64
 import com.regula.facesdk.FaceSDK
 import com.regula.facesdk.configuration.FaceCaptureConfiguration
@@ -24,6 +24,7 @@ import com.regula.facesdk.request.MatchFacesRequest
 
 class FaceMatchingActivity : BaseActivity<ActivityFaceMatchingBinding>(), View.OnClickListener {
 
+    private var isFaceAuthenticated = false
     override val bindingInflater: (LayoutInflater) -> ActivityFaceMatchingBinding = ActivityFaceMatchingBinding::inflate
 
     private var userImageBitmap: Bitmap? = null
@@ -45,6 +46,7 @@ class FaceMatchingActivity : BaseActivity<ActivityFaceMatchingBinding>(), View.O
 
     private fun initViews() {
         views.btnStartCapture.setOnClickListener(this)
+        views.btnFinishMatch.setOnClickListener(this)
     }
 
 
@@ -64,46 +66,53 @@ class FaceMatchingActivity : BaseActivity<ActivityFaceMatchingBinding>(), View.O
         captureBitmap = image?.bitmap
         if (userImageBitmap!=null && captureBitmap!=null){
             loadingUp()
+            views.infoText.text = "Biometrik melumatlar yoxlanılır...\n \nZəhmət olmasa gözləyin"
+            Log.i("startMatch", "OK")
+            views.faceAnimationView.visibility = View.GONE
             val firstImage = MatchFacesImage(userImageBitmap, ImageType.PRINTED, true)
             val secondImage = MatchFacesImage(captureBitmap,  ImageType.LIVE, true)
             val matchFacesRequest = MatchFacesRequest(arrayListOf(firstImage, secondImage))
             FaceSDK.Instance().matchFaces(matchFacesRequest) { matchFacesResponse: MatchFacesResponse ->
                 val split = MatchFacesSimilarityThresholdSplit(matchFacesResponse.results, 0.75)
                 if (split.matchedFaces.size > 0) {
-                    loadingDown(FACE_OPERATION_TYPE.MATCH_SUCCESS)
+                    loadingDown(FaceOperationTypes.MATCH_SUCCESS)
+                    views.btnStartCapture.visibility = View.GONE
+                    views.btnFinishMatch.visibility = View.VISIBLE
                     val similarity = split.matchedFaces[0].similarity
                     val similarityPercent = String.format("%.2f", similarity * 100)
-                    views.similatiryText.text = "Melumantlar doğrulandı\\n \\n Oxşarlıq dərəcəsi: $similarityPercent%"
+                    if (similarity>0.90){
+                        isFaceAuthenticated = true
+                    }
+                    Log.i("similarityPercent :", similarity.toString())
+                    views.infoText.text = "Məlumatlar doğrulandı\n \n Oxşarlıq dərəcəsi: $similarityPercent%"
                 } else {
-                    loadingDown(FACE_OPERATION_TYPE.MATCH_ERROR)
-                    views.similatiryText.text = "Biomentrik məlumat tapılmadı"
+                    loadingDown(FaceOperationTypes.MATCH_ERROR)
+                    Log.i("matchError :", "OK")
+                    views.btnStartCapture.text = "Bir daha cəhd edin"
+                    views.btnFinishMatch.visibility = View.VISIBLE
+                    views.infoText.text = "Biomentrik məlumat tapılmadı"
                 }
             }
         }
 
     }
 
-    private fun loadingUp(){
-        views.btnStartCapture.alpha = 0.5F
-        views.btnStartCapture.isEnabled = false
-        views.guideLayout.visibility = View.GONE
-        views.loadingLayout.visibility = View.VISIBLE
-    }
 
-    private fun loadingDown(type: FACE_OPERATION_TYPE){
 
-        views.btnStartCapture.alpha = 1.0F
-        views.btnStartCapture.isEnabled = true
-        views.btnStartCapture.text = "Bir daha cəhd et"
-        views.loadingLayout.visibility = View.GONE
-        views.guideLayout.visibility = View.GONE
-        views.resultLayout.visibility = View.VISIBLE
+    private fun loadingDown(type: FaceOperationTypes){
+        BaseActivity.loadingDown()
+        views.faceAnimationView.visibility = View.VISIBLE
 
-        if (type==FACE_OPERATION_TYPE.MATCH_SUCCESS){
-            views.resultAnimation.setAnimation(R.raw.icon_success_anim)
+
+        if (type==FaceOperationTypes.MATCH_SUCCESS){
+            views.faceAnimationView.setAnimation(R.raw.icon_success_anim)
+            views.faceAnimationView.playAnimation()
+            views.faceAnimationView.repeatCount =0
         }
         else{
-            views.resultAnimation.setAnimation(R.raw.icon_failed_anim)
+            views.faceAnimationView.setAnimation(R.raw.icon_failed_anim)
+            views.faceAnimationView.playAnimation()
+            views.faceAnimationView.repeatCount =0
         }
     }
 
@@ -114,10 +123,21 @@ class FaceMatchingActivity : BaseActivity<ActivityFaceMatchingBinding>(), View.O
                 startFaceCaptureActivity()
             }
 
+            R.id.btnFinishMatch ->{
+                finisProcess()
+
+            }
+
         }
     }
 
 
+    private fun finisProcess() {
+        val intent = Intent()
+        intent.putExtra("isAuthenticated", isFaceAuthenticated)
+        setResult(RESULT_OK,intent)
+        finish()
+    }
 
 
 

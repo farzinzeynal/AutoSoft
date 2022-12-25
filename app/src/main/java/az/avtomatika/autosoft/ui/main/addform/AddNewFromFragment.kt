@@ -33,7 +33,7 @@ class AddNewFromFragment :
     fun getCurrentLocation() {
         if (LocationHelper.checkPermissions(requireActivity())) {
             if (LocationHelper.isLocationEnabled(requireActivity())) {
-                UtilFunctions.getUserCurrentLocation(requireActivity()) { location ->
+                LocationHelper.getUserCurrentLocation(requireActivity()) { location ->
                     views.textCurrentAdress.text =
                         "${location.address}, ${location.latitude} , ${location.longitude} "
                 }
