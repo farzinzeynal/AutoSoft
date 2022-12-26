@@ -6,26 +6,69 @@
     android:layout_height="match_parent"
     tools:context=".ui.main.MainActivity">
 
-    <androidx.cardview.widget.CardView
-        android:layout_width="365dp"
-        android:layout_height="682dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:elevation="40dp">
+    <LinearLayout
+        android:id="@+id/toolbarLayout"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:background="@color/base_app_background"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingStart="12dp"
+        android:paddingEnd="12dp"
+        app:layout_constraintBottom_toTopOf="@+id/contentMain"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/backArrow"
+            android:visibility="gone"
+            android:layout_width="50dp"
+            android:layout_height="56dp"
+            android:paddingStart="0dp"
+            android:padding="16dp"
+            android:src="@drawable/ic_arrow_back"
+            app:tint="@color/black" />
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Forms"
-            android:textSize="20sp"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="20dp">
+            android:id="@+id/toolbarTitle"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginStart="5dp"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:maxLines="1"
+            android:paddingEnd="10dp"
+            android:text="AutoSoft"
+            android:textColor="@color/black"
+            android:textFontWeight="700"
+            android:textSize="24sp" />
 
-        </TextView>
 
-    </androidx.cardview.widget.CardView>
+        <ImageView
+            android:id="@+id/settingsIcon"
+            android:layout_width="42dp"
+            android:layout_height="46dp"
+            android:padding="8dp"
+            android:src="@drawable/ic_settings"
+            app:tint="@color/black" />
+    </LinearLayout>
+
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/contentMain"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/bottomNav"
+        app:layout_constraintTop_toBottomOf="@+id/toolbarLayout" />
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottomNav"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:background="@color/white"
+        app:itemBackground="@null"
+        app:itemIconSize="24dp"
+        app:itemIconTint="@drawable/bottom_nav_icon_selector"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:menu="@menu/bottom_nav_menu" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

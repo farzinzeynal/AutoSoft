@@ -116,6 +116,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(FragmentLoginBinding::i
 
             R.id.btnLogin -> {
                 loginUser(views.inputUsername.getText(), views.inputPassword.getText())
+                //loginUser("farzin","12345")
             }
         }
     }

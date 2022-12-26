@@ -6,7 +6,10 @@
     <color name="secondary_color_variant">#C68F00</color>
     <color name="status_bar_color">#4F96FF</color>
     <color name="face_matching_background">#E4E4E4</color>
+    <color name="base_app_background">#EDEDED</color>
     <color name="progress_bar_color">#022AA3</color>
+    <color name="bottom_icon_color">#0B36F1</color>
+    <color name="bottom_icon_unselect_color">#6682FD</color>
 
     <color name="purple_200">#FFBB86FC</color>
     <color name="purple_500">#FF6200EE</color>
