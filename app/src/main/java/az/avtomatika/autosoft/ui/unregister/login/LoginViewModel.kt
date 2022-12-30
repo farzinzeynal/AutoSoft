@@ -1,5 +1,7 @@
 package az.avtomatika.autosoft.ui.unregister.login
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -59,13 +61,14 @@ class LoginViewModel(private val repository: LoginRepository) : ViewModel() {
             fincode = username,
             lang = Constants.currentLang,
             sesstoken = Constants.sessToken,
-            reqid = "DevTest657568435",
+            reqid = getReqId(),
         )
         repository.getProfileInfo(profileInfoRequest).collect { values ->
             _profileInfoLiveData.value = values
         }
     }
 
+    @RequiresApi(Build.VERSION_CODES.N)
     fun updateProfileAvatar(imageUri: String) = viewModelScope.launch {
         BaseActivity.loadingUp()
         val updateAvatarRequest = UpdateAvatarRequest(
@@ -74,7 +77,7 @@ class LoginViewModel(private val repository: LoginRepository) : ViewModel() {
             fincode = profileDatas?.fincode,
             lang = Constants.currentLang,
             sesstoken = Constants.sessToken,
-            reqid = "DevTest332435",
+            reqid = getReqId(),
             avatarfile = imageUri
         )
         repository.updateAvatar(updateAvatarRequest).collect { values ->

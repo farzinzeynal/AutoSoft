@@ -28,13 +28,15 @@ import com.google.android.gms.tasks.CancellationTokenSource
 import com.google.android.gms.tasks.OnTokenCanceledListener
 import java.io.*
 import java.util.*
+import java.util.concurrent.ThreadLocalRandom
 import kotlin.random.Random
 import kotlin.random.Random.Default.nextInt
 import kotlin.streams.asSequence
 
 
 object UtilFunctions {
-    var charPool : List<Char> = ('a'..'z') + ('A'..'Z') + ('0'..'9')
+
+
     @SuppressLint("HardwareIds")
     fun getDeviceUniqueID(context: Context): String {
         return Secure.getString(context.contentResolver, Secure.ANDROID_ID)
@@ -46,16 +48,15 @@ object UtilFunctions {
     }
 
 
+    @RequiresApi(Build.VERSION_CODES.N)
     fun getReqId(): String {
-        val charset = ('a'..'z') + ('A'..'Z') + ('0'..'9')
-        return (1..20)
-            .map { charset.random() }
+        val source = "ABCDEFGHIJKLMNOPQRSTUVWXYZ123456789"
+        return  java.util.Random().ints(20, 0, source.length)
+            .asSequence()
+            .map(source::get)
             .joinToString("")
     }
 
-    fun randomStringByKotlinRandom() = (1..20)
-        .map { Random.nextInt(0, charPool.size).let { charPool[it] } }
-        .joinToString("")
 
 
     fun decodeBase64(inputBase64: String?): Bitmap? {

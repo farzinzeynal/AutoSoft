@@ -2,12 +2,15 @@ package az.avtomatika.autosoft.ui.unregister.enroll
 
 import android.app.Activity
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
 import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.annotation.RequiresApi
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
 import az.avtomatika.autosoft.R
@@ -22,6 +25,8 @@ import az.avtomatika.autosoft.util.UtilFunctions.encodeBitmapToBase64
 import az.avtomatika.autosoft.util.UtilFunctions.getNavOptions
 import az.avtomatika.autosoft.util.UtilFunctions.getNavOptionsDisableBack
 import az.avtomatika.autosoft.util.core.MainPopupDialog
+import az.avtomatika.autosoft.util.helper.CameraHelper
+import az.avtomatika.autosoft.util.helper.LocationHelper
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.util.ArrayList
 
@@ -89,7 +94,7 @@ class FaceEnrollFragment :
         )
     }
 
-    var cameraLauncher =
+    private var cameraLauncher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result.resultCode == Activity.RESULT_OK) {
                 val photoBitmap = result.data?.getExtras()?.get("data") as Bitmap
@@ -122,8 +127,29 @@ class FaceEnrollFragment :
     }
 
     private fun startCapture() {
-        val takePicture = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-        cameraLauncher.launch(takePicture)
+        if (CameraHelper.checkCameraPermissions(requireActivity())) {
+            val takePicture = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+            cameraLauncher.launch(takePicture)
+        }
+        else{
+            CameraHelper.requestCameraPermissions(requireActivity())
+        }
+    }
+
+    @Deprecated("Deprecated in Java")
+    @RequiresApi(Build.VERSION_CODES.S)
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if (requestCode == CameraHelper.CAMERA_REQUEST_CODE) {
+            if ((grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
+                val takePicture = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+                cameraLauncher.launch(takePicture)
+            }
+        }
     }
 
 }

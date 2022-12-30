@@ -1,7 +1,9 @@
 package az.avtomatika.autosoft
 
 import android.app.Application
+import android.os.Build
 import android.util.Log
+import androidx.annotation.RequiresApi
 import az.avtomatika.autosoft.di.apiModule
 import az.avtomatika.autosoft.di.viewModelModule
 import az.avtomatika.autosoft.util.MainShared
@@ -11,7 +13,6 @@ import az.avtomatika.autosoft.util.UtilFunctions
 import az.avtomatika.autosoft.util.UtilFunctions.getDeviceUniqueID
 import az.avtomatika.autosoft.util.UtilFunctions.getRandomID
 import az.avtomatika.autosoft.util.UtilFunctions.getReqId
-import az.avtomatika.autosoft.util.UtilFunctions.randomStringByKotlinRandom
 import az.needforspeak.di.repositoryModule
 import az.needforspeak.di.retrofitModule
 import org.koin.android.ext.koin.androidContext
@@ -27,11 +28,11 @@ class MainAppication : Application() {
             private set
     }
 
+    @RequiresApi(Build.VERSION_CODES.N)
     override fun onCreate() {
         super.onCreate()
         saveUUID()
         initDependencyInjection()
-        Log.i("RANDOM_ID",getRandomID())
     }
 
 
