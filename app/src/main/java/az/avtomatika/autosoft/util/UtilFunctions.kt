@@ -4,27 +4,37 @@ import android.annotation.SuppressLint
 import android.annotation.TargetApi
 import android.app.Activity
 import android.content.Context
+import android.content.ContextWrapper
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.location.Address
 import android.location.Geocoder
 import android.location.Location
 import android.location.LocationRequest
+import android.net.Uri
 import android.os.Build
 import android.provider.Settings.Secure
 import android.util.Base64
+import android.view.View
+import androidx.annotation.RequiresApi
+import androidx.navigation.NavOptions
+import androidx.navigation.Navigation
+import az.avtomatika.autosoft.R
 import az.avtomatika.autosoft.util.helper.LocationHelper
 import com.google.android.gms.location.LocationServices
 
 import com.google.android.gms.tasks.CancellationToken
 import com.google.android.gms.tasks.CancellationTokenSource
 import com.google.android.gms.tasks.OnTokenCanceledListener
-import java.io.ByteArrayOutputStream
+import java.io.*
 import java.util.*
+import kotlin.random.Random
+import kotlin.random.Random.Default.nextInt
+import kotlin.streams.asSequence
 
 
 object UtilFunctions {
-
+    var charPool : List<Char> = ('a'..'z') + ('A'..'Z') + ('0'..'9')
     @SuppressLint("HardwareIds")
     fun getDeviceUniqueID(context: Context): String {
         return Secure.getString(context.contentResolver, Secure.ANDROID_ID)
@@ -36,7 +46,16 @@ object UtilFunctions {
     }
 
 
+    fun getReqId(): String {
+        val charset = ('a'..'z') + ('A'..'Z') + ('0'..'9')
+        return (1..20)
+            .map { charset.random() }
+            .joinToString("")
+    }
 
+    fun randomStringByKotlinRandom() = (1..20)
+        .map { Random.nextInt(0, charPool.size).let { charPool[it] } }
+        .joinToString("")
 
 
     fun decodeBase64(inputBase64: String?): Bitmap? {
@@ -52,6 +71,45 @@ object UtilFunctions {
         bitmap.compress(compressFormat, quality, stream)
         val image = stream.toByteArray()
         return String(Base64.encode(image, Base64.DEFAULT))
+    }
+
+    fun getNavOptions(): NavOptions? {
+        return NavOptions.Builder()
+            .setEnterAnim(R.anim.nav_default_enter_anim)
+            .setExitAnim(R.anim.nav_default_exit_anim)
+            .setPopEnterAnim(R.anim.nav_default_pop_enter_anim)
+            .setPopExitAnim(R.anim.nav_default_pop_exit_anim)
+            .build()
+    }
+
+    fun getNavOptionsDisableBack(view: View): NavOptions? {
+        val navController = Navigation.findNavController(view)
+        return NavOptions.Builder()
+            .setPopUpTo(
+                navController.getGraph().startDestination,
+                false)
+            .setEnterAnim(R.anim.nav_default_enter_anim)
+            .setExitAnim(R.anim.nav_default_exit_anim)
+            .setPopEnterAnim(R.anim.nav_default_pop_enter_anim)
+            .setPopExitAnim(R.anim.nav_default_pop_exit_anim)
+            .build()
+    }
+
+    fun bitmapToFile(context: Context,bitmap:Bitmap): Uri {
+        val wrapper = ContextWrapper(context)
+        var file = wrapper.getDir("Images", Context.MODE_PRIVATE)
+        file = File(file,"${UUID.randomUUID()}.jpg")
+
+        try{
+            val stream: OutputStream = FileOutputStream(file)
+            bitmap.compress(Bitmap.CompressFormat.JPEG,100,stream)
+            stream.flush()
+            stream.close()
+        }catch (e: IOException){
+            e.printStackTrace()
+        }
+
+        return Uri.parse(file.absolutePath)
     }
 
 

@@ -1,6 +1,80 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/take_photo_animation"
+        android:layout_width="160dp"
+        android:layout_height="130dp"
+        android:layout_marginTop="100dp"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+    </com.airbnb.lottie.LottieAnimationView>
+
+    <LinearLayout
+        android:id="@+id/add_image_layout"
+        android:layout_width="240dp"
+        android:layout_height="220dp"
+        android:layout_marginTop="180dp"
+        android:orientation="vertical"
+        android:padding="10dp"
+        android:visibility="visible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/img_add_photo"
+            android:layout_width="180dp"
+            android:layout_height="160dp"
+            android:layout_gravity="center_horizontal"
+            android:background="@drawable/custom_border"
+            android:padding="20dp"
+            android:src="@drawable/ic_add_a_photo">
+        </ImageView>
+
+    </LinearLayout>
+
+
+
+    <LinearLayout
+        android:id="@+id/btnsLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginHorizontal="30dp"
+        android:layout_marginBottom="50dp"
+        app:layout_constraintStart_toStartOf="parent">
+        <Button
+            android:id="@+id/btnStartCapture"
+            android:layout_width="match_parent"
+            android:layout_height="65dp"
+            android:text="Başla"
+            android:textAllCaps="false"
+            android:textSize="17sp"
+            android:gravity="center"
+            android:paddingRight="50dp"
+            android:drawableLeft="@drawable/ic_baseline_photo_camera_24">
+        </Button>
+
+        <Button
+            android:id="@+id/btnFinishEnroll"
+            android:layout_width="match_parent"
+            android:layout_height="65dp"
+            android:text="Göndər"
+            android:visibility="gone"
+            android:textAllCaps="false"
+            android:textSize="17sp"
+            android:gravity="center">
+        </Button>
+
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

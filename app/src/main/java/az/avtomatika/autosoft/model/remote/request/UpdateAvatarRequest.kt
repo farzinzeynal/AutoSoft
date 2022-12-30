@@ -1,11 +1,11 @@
 package az.avtomatika.autosoft.model.remote.request
 
-data class LoginRequest(
+data class UpdateAvatarRequest (
     val appversion: String?,
     val method: String?,
     val fincode: String?,
     val lang: String?,
-    val password: String?,
-    val os_name: String?,
-    val os_version: String?
+    val sesstoken: String?,
+    val reqid: String?,
+    val avatarfile: String?,
 )

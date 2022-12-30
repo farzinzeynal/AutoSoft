@@ -45,6 +45,16 @@ class TextInputView : RelativeLayout, View.OnFocusChangeListener{
         return textInputLayout.editText?.text.toString()
     }
 
+    fun setText(text:String){
+         textInputLayout.editText?.setText(text)
+    }
+
+    fun setError(errorText: String){
+        textInputLayout.editText?.error = errorText
+    }
+
+
+
 
 
 

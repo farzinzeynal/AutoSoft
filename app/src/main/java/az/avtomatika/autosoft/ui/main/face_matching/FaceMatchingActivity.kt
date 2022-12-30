@@ -10,6 +10,7 @@ import az.avtomatika.autosoft.R
 import az.avtomatika.autosoft.base.BaseActivity
 import az.avtomatika.autosoft.databinding.ActivityFaceMatchingBinding
 import az.avtomatika.autosoft.util.Constants.USER_IMAGE
+import az.avtomatika.autosoft.util.Constants.USER_IMAGE_BITMAP
 import az.avtomatika.autosoft.util.FaceOperationTypes
 import az.avtomatika.autosoft.util.UtilFunctions.decodeBase64
 import com.regula.facesdk.FaceSDK
@@ -41,7 +42,8 @@ class FaceMatchingActivity : BaseActivity<ActivityFaceMatchingBinding>(), View.O
     }
 
     private fun getCurrentImage() {
-        userImageBitmap = decodeBase64(USER_IMAGE)
+        userImageBitmap = USER_IMAGE_BITMAP
+
     }
 
     private fun initViews() {

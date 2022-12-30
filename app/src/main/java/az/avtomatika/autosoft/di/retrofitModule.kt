@@ -39,7 +39,7 @@ val retrofitModule = module {
                 if(!lang.isNullOrEmpty()) {
                     addHeader("Accept-Language", lang)
                 }*/
-                addHeader("Authorization", "Bearer $authToken")
+              //addHeader("Authorization", "Bearer $authToken")
                 addHeader("Accept", "application/json")
                 addHeader("Content-Type", "application/json")
             }.build())

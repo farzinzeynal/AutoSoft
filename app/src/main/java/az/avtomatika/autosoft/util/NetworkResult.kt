@@ -1,7 +1,7 @@
 package az.avtomatika.autosoft.util
 
 sealed class NetworkResult<T>(
-    val data: T? = null,
+    val response: T? = null,
     val message: String? = null
 ) {
 

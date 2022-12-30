@@ -9,6 +9,9 @@ import az.avtomatika.autosoft.util.SharedPrefNames
 import az.avtomatika.autosoft.util.SharedTypes
 import az.avtomatika.autosoft.util.UtilFunctions
 import az.avtomatika.autosoft.util.UtilFunctions.getDeviceUniqueID
+import az.avtomatika.autosoft.util.UtilFunctions.getRandomID
+import az.avtomatika.autosoft.util.UtilFunctions.getReqId
+import az.avtomatika.autosoft.util.UtilFunctions.randomStringByKotlinRandom
 import az.needforspeak.di.repositoryModule
 import az.needforspeak.di.retrofitModule
 import org.koin.android.ext.koin.androidContext
@@ -28,7 +31,7 @@ class MainAppication : Application() {
         super.onCreate()
         saveUUID()
         initDependencyInjection()
-
+        Log.i("RANDOM_ID",getRandomID())
     }
 
 

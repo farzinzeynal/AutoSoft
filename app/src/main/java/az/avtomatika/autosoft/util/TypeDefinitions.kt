@@ -19,3 +19,14 @@ enum class PopupAnimTypes {
     WARNING
 }
 
+enum class HttpResponseTypes {
+    SUCCES,
+    ERROR
+}
+
+
+
+
+
+
+
