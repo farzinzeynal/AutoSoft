@@ -1,7 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/main_nav">
+    android:id="@+id/main_nav"
+    app:startDestination="@id/homeFragment">
+
+
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="az.avtomatika.autosoft.ui.main.home.HomeFragment"
+        android:label="HomeFragment" />
+
+    <fragment
+        android:id="@+id/formHistoryFragment"
+        android:name="az.avtomatika.autosoft.ui.main.history.FormHistoryFragment"
+        android:label="FormHistoryFragment" />
+
+    <fragment
+        android:id="@+id/profileFragment"
+        android:name="az.avtomatika.autosoft.ui.main.profile.ProfileFragment"
+        android:label="ProfileFragment" />
+
+
+    <fragment
+        android:id="@+id/addNewFromFragment"
+        android:name="az.avtomatika.autosoft.ui.main.addform.AddNewFromFragment"
+        android:label="AddNewFromFragment" />
+
 
 
 </navigation>

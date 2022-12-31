@@ -1,12 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:id="@+id/createFromNav"
-        android:title="Yeni Form"
-        android:icon="@drawable/ic_add_box"/>
-    <item android:id="@+id/historyNav"
-        android:title="Taixçə"
-        android:icon="@drawable/ic_history"/>
-    <item android:id="@+id/profileNav"
-        android:title="Profil"
-        android:icon="@drawable/ic_account_circle"/>
+    <item
+        android:id="@+id/createFromNav"
+        android:icon="@drawable/ic_add_box"
+        android:title="Yeni Form" />
+    <item
+        android:id="@+id/historyNav"
+        android:icon="@drawable/ic_history"
+        android:title="Taixçə" />
+    <item
+        android:id="@+id/profileNav"
+        android:icon="@drawable/ic_account_circle"
+        android:title="Profil" />
 </menu>

@@ -54,6 +54,7 @@ class LoginViewModel(private val repository: LoginRepository) : ViewModel() {
         }
     }
 
+    @RequiresApi(Build.VERSION_CODES.N)
     fun getProfileDatas(username: String) = viewModelScope.launch {
         val profileInfoRequest = ProfileInfoRequest(
             appversion = Constants.appVersion,

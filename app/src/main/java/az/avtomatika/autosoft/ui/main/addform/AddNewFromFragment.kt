@@ -35,7 +35,7 @@ class AddNewFromFragment :
             if (LocationHelper.isLocationEnabled(requireActivity())) {
                 LocationHelper.getUserCurrentLocation(requireActivity()) { location ->
                     views.textCurrentAdress.text =
-                        "${location.address}, ${location.latitude} , ${location.longitude} "
+                        "FormHistory : ${location.address}, ${location.latitude} , ${location.longitude} "
                 }
 
             } else {

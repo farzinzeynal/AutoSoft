@@ -1,28 +1,25 @@
 package az.avtomatika.autosoft.ui.unregister.login
 
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.view.View
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.Navigation
 import az.avtomatika.autosoft.BuildConfig
 import az.avtomatika.autosoft.R
 import az.avtomatika.autosoft.base.BaseActivity
-import androidx.navigation.fragment.findNavController
 import az.avtomatika.autosoft.base.BaseFragment
 import az.avtomatika.autosoft.databinding.FragmentLoginBinding
-import az.avtomatika.autosoft.model.remote.request.LoginRequest
-import az.avtomatika.autosoft.model.remote.request.ProfileInfoRequest
 import az.avtomatika.autosoft.model.remote.response.LoginResponseModel
-import az.avtomatika.autosoft.model.remote.response.ProfileData
 import az.avtomatika.autosoft.model.remote.response.ProfileInfoResponse
 import az.avtomatika.autosoft.ui.main.MainActivity
 import az.avtomatika.autosoft.ui.main.face_matching.FaceMatchingActivity
 import az.avtomatika.autosoft.util.*
 import az.avtomatika.autosoft.util.Constants.FACE_MATCHING_REQUEST_CODE
 import az.avtomatika.autosoft.util.UtilFunctions.getNavOptions
-import az.avtomatika.autosoft.util.UtilFunctions.getNavOptionsDisableBack
 import az.avtomatika.autosoft.util.core.MainPopupDialog
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -36,6 +33,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(FragmentLoginBinding::i
         super.onCreate(savedInstanceState)
 
     }
+    @RequiresApi(Build.VERSION_CODES.N)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -89,7 +87,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(FragmentLoginBinding::i
             ),
             object : MainPopupDialog.InfoPopUpDismissListener {
                 override fun onDismiss() {
-                     Navigation.findNavController(requireView()).navigate(R.id.faceEnrollFragment,null, getNavOptionsDisableBack(requireView()))
+                     Navigation.findNavController(requireView()).navigate(R.id.faceEnrollFragment,null, getNavOptions())
                 }
             }, animType = PopupAnimTypes.WARNING
         )
@@ -126,6 +124,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(FragmentLoginBinding::i
     }
 
 
+    @RequiresApi(Build.VERSION_CODES.N)
     private fun initLoginApi() {
         viewModel.loginResponse.observe(viewLifecycleOwner) {
             BaseActivity.loadingDown()
@@ -174,6 +173,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(FragmentLoginBinding::i
         }
     }
 
+    @RequiresApi(Build.VERSION_CODES.N)
     private fun getProfileData() {
         viewModel.getProfileDatas(views.inputUsername.getText())
     }
@@ -203,6 +203,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(FragmentLoginBinding::i
         if (isAuth) {
             val intent = Intent(requireActivity(), MainActivity::class.java)
             startActivity(intent)
+            requireActivity().finish()
         }
     }
 

@@ -83,18 +83,7 @@ object UtilFunctions {
             .build()
     }
 
-    fun getNavOptionsDisableBack(view: View): NavOptions? {
-        val navController = Navigation.findNavController(view)
-        return NavOptions.Builder()
-            .setPopUpTo(
-                navController.getGraph().startDestination,
-                false)
-            .setEnterAnim(R.anim.nav_default_enter_anim)
-            .setExitAnim(R.anim.nav_default_exit_anim)
-            .setPopEnterAnim(R.anim.nav_default_pop_enter_anim)
-            .setPopExitAnim(R.anim.nav_default_pop_exit_anim)
-            .build()
-    }
+
 
     fun bitmapToFile(context: Context,bitmap:Bitmap): Uri {
         val wrapper = ContextWrapper(context)
