@@ -11,26 +11,18 @@ import android.provider.MediaStore
 import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
-import androidx.navigation.Navigation
-import androidx.navigation.fragment.findNavController
 import az.avtomatika.autosoft.R
 import az.avtomatika.autosoft.base.BaseFragment
 import az.avtomatika.autosoft.databinding.FragmentFaceEnrollBinding
 import az.avtomatika.autosoft.ui.main.MainActivity
-import az.avtomatika.autosoft.ui.main.MainActivity2
 import az.avtomatika.autosoft.ui.unregister.login.LoginViewModel
 import az.avtomatika.autosoft.util.NetworkResult
 import az.avtomatika.autosoft.util.PopupAnimTypes
-import az.avtomatika.autosoft.util.UtilFunctions
 import az.avtomatika.autosoft.util.UtilFunctions.bitmapToFile
 import az.avtomatika.autosoft.util.UtilFunctions.encodeBitmapToBase64
-import az.avtomatika.autosoft.util.UtilFunctions.getNavOptions
-
 import az.avtomatika.autosoft.util.core.MainPopupDialog
 import az.avtomatika.autosoft.util.helper.CameraHelper
-import az.avtomatika.autosoft.util.helper.LocationHelper
 import org.koin.androidx.viewmodel.ext.android.viewModel
-import java.util.ArrayList
 
 class FaceEnrollFragment :
     BaseFragment<FragmentFaceEnrollBinding>(FragmentFaceEnrollBinding::inflate),View.OnClickListener {
@@ -90,7 +82,7 @@ class FaceEnrollFragment :
             requireContext(),
             MainPopupDialog.InfoDatas("Uğurlu əməliyyat", "Şəkil uğurla göndərildi"), object : MainPopupDialog.InfoPopUpDismissListener {
                 override fun onDismiss() {
-                    val intent = Intent(requireActivity(), MainActivity2::class.java)
+                    val intent = Intent(requireActivity(), MainActivity::class.java)
                     startActivity(intent)
                     requireActivity().finish()
                 }
@@ -112,6 +104,7 @@ class FaceEnrollFragment :
             }
         }
 
+    @RequiresApi(Build.VERSION_CODES.N)
     override fun onClick(p0: View?) {
         when(p0?.id){
             R.id.btnStartCapture -> {
@@ -124,6 +117,7 @@ class FaceEnrollFragment :
         }
     }
 
+    @RequiresApi(Build.VERSION_CODES.N)
     private fun sendPhotoToServer() {
         if (capturedImageBitmap!=null){
             val imageString = encodeBitmapToBase64(capturedImageBitmap!!,Bitmap.CompressFormat.JPEG,100)

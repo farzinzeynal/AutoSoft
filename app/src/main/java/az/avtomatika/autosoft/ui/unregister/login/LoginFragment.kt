@@ -1,6 +1,8 @@
 package az.avtomatika.autosoft.ui.unregister.login
 
 import android.content.Intent
+import android.graphics.Bitmap
+import android.graphics.drawable.Drawable
 import android.os.Build
 import android.os.Bundle
 import android.os.Handler
@@ -19,8 +21,12 @@ import az.avtomatika.autosoft.ui.main.MainActivity
 import az.avtomatika.autosoft.ui.main.face_matching.FaceMatchingActivity
 import az.avtomatika.autosoft.util.*
 import az.avtomatika.autosoft.util.Constants.FACE_MATCHING_REQUEST_CODE
+import az.avtomatika.autosoft.util.Constants.registeredUserImage
 import az.avtomatika.autosoft.util.UtilFunctions.getNavOptions
 import az.avtomatika.autosoft.util.core.MainPopupDialog
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.target.CustomTarget
+import com.bumptech.glide.request.transition.Transition
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
@@ -91,7 +97,6 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(FragmentLoginBinding::i
                 }
             }, animType = PopupAnimTypes.WARNING
         )
-        //navigate to enroll fragment
     }
 
 
@@ -161,16 +166,28 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(FragmentLoginBinding::i
     private fun saveDatas(response: ProfileInfoResponse?) {
         viewModel.saveDatas(response)
         if (response?.data?.avatar != null) {
-            /*  try{
-                  val url = URL(response.data.avatar.url)
-                  USER_IMAGE_BITMAP = BitmapFactory.decodeStream(url.openConnection().getInputStream())
-                  USER_IMAGE_BITMAP
+              try{
+                  //startFaceEnrolling()
+                  dowloadImageAsBitmap(response.data.avatar.url)
               }catch (ex:Exception){}
-              startFaceMatching()*/
-            startFaceEnrolling()
         } else {
             startFaceEnrolling()
         }
+    }
+
+    private fun dowloadImageAsBitmap(url: String) {
+        Glide.with(this)
+            .asBitmap()
+            .load(url)
+            .into(object : CustomTarget<Bitmap>(){
+                override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap>?) {
+                    registeredUserImage = resource
+                    startFaceMatching()
+                }
+                override fun onLoadCleared(placeholder: Drawable?) {
+
+                }
+            })
     }
 
     @RequiresApi(Build.VERSION_CODES.N)

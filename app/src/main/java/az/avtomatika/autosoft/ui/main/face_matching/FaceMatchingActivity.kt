@@ -9,10 +9,8 @@ import android.view.View
 import az.avtomatika.autosoft.R
 import az.avtomatika.autosoft.base.BaseActivity
 import az.avtomatika.autosoft.databinding.ActivityFaceMatchingBinding
-import az.avtomatika.autosoft.util.Constants.USER_IMAGE
-import az.avtomatika.autosoft.util.Constants.USER_IMAGE_BITMAP
+import az.avtomatika.autosoft.util.Constants.registeredUserImage
 import az.avtomatika.autosoft.util.FaceOperationTypes
-import az.avtomatika.autosoft.util.UtilFunctions.decodeBase64
 import com.regula.facesdk.FaceSDK
 import com.regula.facesdk.configuration.FaceCaptureConfiguration
 import com.regula.facesdk.enums.ImageType
@@ -42,8 +40,7 @@ class FaceMatchingActivity : BaseActivity<ActivityFaceMatchingBinding>(), View.O
     }
 
     private fun getCurrentImage() {
-        userImageBitmap = USER_IMAGE_BITMAP
-
+        userImageBitmap = registeredUserImage
     }
 
     private fun initViews() {

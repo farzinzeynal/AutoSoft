@@ -74,7 +74,7 @@ class LoginViewModel(private val repository: LoginRepository) : ViewModel() {
         BaseActivity.loadingUp()
         val updateAvatarRequest = UpdateAvatarRequest(
             appversion = Constants.appVersion,
-            method = HttpMethods.profileInfo,
+            method = HttpMethods.updateProfileAvatar,
             fincode = profileDatas?.fincode,
             lang = Constants.currentLang,
             sesstoken = Constants.sessToken,
