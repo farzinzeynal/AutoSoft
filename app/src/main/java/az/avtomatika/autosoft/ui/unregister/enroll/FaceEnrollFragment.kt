@@ -17,6 +17,7 @@ import az.avtomatika.autosoft.R
 import az.avtomatika.autosoft.base.BaseFragment
 import az.avtomatika.autosoft.databinding.FragmentFaceEnrollBinding
 import az.avtomatika.autosoft.ui.main.MainActivity
+import az.avtomatika.autosoft.ui.main.MainActivity2
 import az.avtomatika.autosoft.ui.unregister.login.LoginViewModel
 import az.avtomatika.autosoft.util.NetworkResult
 import az.avtomatika.autosoft.util.PopupAnimTypes
@@ -47,6 +48,7 @@ class FaceEnrollFragment :
 
 
     }
+
 
 
     private fun initViews() {
@@ -88,7 +90,7 @@ class FaceEnrollFragment :
             requireContext(),
             MainPopupDialog.InfoDatas("Uğurlu əməliyyat", "Şəkil uğurla göndərildi"), object : MainPopupDialog.InfoPopUpDismissListener {
                 override fun onDismiss() {
-                    val intent = Intent(requireActivity(), MainActivity::class.java)
+                    val intent = Intent(requireActivity(), MainActivity2::class.java)
                     startActivity(intent)
                     requireActivity().finish()
                 }
