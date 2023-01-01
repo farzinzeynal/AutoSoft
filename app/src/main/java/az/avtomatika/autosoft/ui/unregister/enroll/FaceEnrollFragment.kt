@@ -16,6 +16,7 @@ import az.avtomatika.autosoft.base.BaseFragment
 import az.avtomatika.autosoft.databinding.FragmentFaceEnrollBinding
 import az.avtomatika.autosoft.ui.main.MainActivity
 import az.avtomatika.autosoft.ui.unregister.login.LoginViewModel
+import az.avtomatika.autosoft.util.Constants
 import az.avtomatika.autosoft.util.NetworkResult
 import az.avtomatika.autosoft.util.PopupAnimTypes
 import az.avtomatika.autosoft.util.UtilFunctions.bitmapToFile
@@ -97,6 +98,7 @@ class FaceEnrollFragment :
                 val photoBitmap = result.data?.getExtras()?.get("data") as Bitmap
                 val uri = bitmapToFile(requireActivity().applicationContext,photoBitmap)
                 capturedImageBitmap = photoBitmap
+                Constants.registeredUserImage = photoBitmap
                 capturedImage = uri
                 views.imgAddPhoto.setImageBitmap(photoBitmap)
                 views.btnStartCapture.text = "Yenidən çək"

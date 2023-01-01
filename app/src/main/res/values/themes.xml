@@ -27,5 +27,10 @@
         <item name="android:background">@drawable/roundy_button_yellow</item>
     </style>
 
+    <style name="roundedProfileView" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">50dp</item>
+    </style>
+
 
 </resources>

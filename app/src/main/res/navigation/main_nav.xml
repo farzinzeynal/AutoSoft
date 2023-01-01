@@ -9,6 +9,11 @@
         android:id="@+id/homeFragment"
         android:name="az.avtomatika.autosoft.ui.main.home.HomeFragment"
         android:label="HomeFragment" />
+        <argument
+            android:name="shiftType"
+            android:defaultValue=""
+            app:argType="string">
+        </argument>
 
     <fragment
         android:id="@+id/formHistoryFragment"

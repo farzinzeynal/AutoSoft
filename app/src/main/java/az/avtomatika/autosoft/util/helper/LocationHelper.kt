@@ -8,6 +8,7 @@ import android.content.pm.PackageManager
 import android.location.*
 import android.os.Build
 import androidx.core.app.ActivityCompat
+import az.avtomatika.autosoft.base.BaseActivity
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.tasks.CancellationToken
 import com.google.android.gms.tasks.CancellationTokenSource
@@ -24,6 +25,7 @@ object LocationHelper {
         activity: Activity,
         onLocationSet: (LocationHelper.LocationModel) -> Unit
     ) {
+        BaseActivity.loadingUp()
         var locationModel: LocationHelper.LocationModel? = null
         var list: MutableList<Address>? = null
         val mFusedLocationClient = LocationServices.getFusedLocationProviderClient(activity)
@@ -37,6 +39,7 @@ object LocationHelper {
                     override fun isCancellationRequested() = false
                 })
                 .addOnSuccessListener { location: Location? ->
+                    BaseActivity.loadingDown()
                     if (location != null) {
                         val geocoder = Geocoder(activity, Locale.getDefault())
                         list = geocoder.getFromLocation(location.latitude, location.longitude, 1)

@@ -3,7 +3,6 @@ package az.needforspeak.di
 import android.content.Context
 import android.content.SharedPreferences
 import az.avtomatika.autosoft.BuildConfig
-import az.avtomatika.autosoft.util.Constants.authToken
 import com.google.gson.GsonBuilder
 import okhttp3.*
 import okhttp3.logging.HttpLoggingInterceptor

@@ -7,7 +7,7 @@ import android.widget.LinearLayout
 import androidx.constraintlayout.widget.ConstraintLayout
 import az.avtomatika.autosoft.R
 
-class StartMatchingView : LinearLayout {
+class GetLocationView : LinearLayout {
     constructor(context: Context) : super(context) {
         initView()
     }
@@ -25,9 +25,9 @@ class StartMatchingView : LinearLayout {
     }
 
     private fun initView() {
-      /*  val rootView = (context
+        val rootView = (context
             .getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater)
-            .inflate(R.layout.loading_layout, this, true)*/
+            .inflate(R.layout.get_location_layout, this, true)
 
     }
 }

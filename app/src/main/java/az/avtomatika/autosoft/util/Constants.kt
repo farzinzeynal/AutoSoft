@@ -15,6 +15,9 @@ object Constants {
     var OS_Version = "12"
     var sessToken = ""
 
+    //shiftValues
+    var currentShifType = ""
+
     //profileDatas
     var profileDatas: ProfileData? = null
     var registeredUserImage: Bitmap? = null

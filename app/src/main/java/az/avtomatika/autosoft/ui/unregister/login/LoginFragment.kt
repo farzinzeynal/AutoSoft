@@ -72,8 +72,6 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(FragmentLoginBinding::i
         views.inputPassword.setInputTypePassWord()
         views.inputPassword.setHint("FIN kod")
         views.inputUsername.setHint("Parol")
-        views.inputUsername.setText("FIN1234")
-        views.inputPassword.setText("123456")
         views.textVersionName.text = BuildConfig.VERSION_NAME
 
 
@@ -89,7 +87,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(FragmentLoginBinding::i
             requireContext(),
             MainPopupDialog.InfoDatas(
                 "Diqqət",
-                "Biometrik melumatlarınız tapılmadı. Məlumatları daxil etmak üçün nöbbəti səhifəyə keçin"
+                "Biometrik melumatlarınız tapılmadı. Məlumatları daxil etmək üçün nöbbəti səhifəyə keçin"
             ),
             object : MainPopupDialog.InfoPopUpDismissListener {
                 override fun onDismiss() {
