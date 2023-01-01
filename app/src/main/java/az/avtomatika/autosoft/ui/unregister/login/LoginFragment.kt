@@ -174,18 +174,23 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(FragmentLoginBinding::i
     }
 
     private fun dowloadImageAsBitmap(url: String) {
-        Glide.with(this)
-            .asBitmap()
-            .load(url)
-            .into(object : CustomTarget<Bitmap>(){
-                override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap>?) {
-                    registeredUserImage = resource
-                    startFaceMatching()
-                }
-                override fun onLoadCleared(placeholder: Drawable?) {
+        if(url.isNotEmpty()){
+            Glide.with(this)
+                .asBitmap()
+                .load(url)
+                .into(object : CustomTarget<Bitmap>(){
+                    override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap>?) {
+                        registeredUserImage = resource
+                        startFaceMatching()
+                    }
+                    override fun onLoadCleared(placeholder: Drawable?) {
 
-                }
-            })
+                    }
+                })
+        }
+        else{
+            startFaceEnrolling()
+        }
     }
 
     @RequiresApi(Build.VERSION_CODES.N)

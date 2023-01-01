@@ -1,5 +1,6 @@
 package az.avtomatika.autosoft.ui.main.addform
 
+import android.Manifest
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
@@ -45,8 +46,8 @@ class AddNewFromFragment :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initViews()
-        getCurrentLocation()
         initInsertShiftApi()
+        requestPermissionLauncher.launch(Manifest.permission.ACCESS_FINE_LOCATION)
 
         shiftType = if(Constants.currentShifType =="1") "2" else "1"
         /*arguments?.let {
@@ -112,6 +113,27 @@ class AddNewFromFragment :
         }
     }
 
+    @RequiresApi(Build.VERSION_CODES.S)
+    private var requestPermissionLauncher = registerForActivityResult(
+        ActivityResultContracts.RequestPermission()
+    ) { isGranted ->
+        if (isGranted) {
+          getCurrentLocation()
+        } else {
+            MainPopupDialog.infoAlert(
+                requireContext(),
+                MainPopupDialog.InfoDatas("Diqqət", "Form göndərmək üçün məkan məlumatlarını alınmasına icazə verin!"),
+                object : MainPopupDialog.InfoPopUpDismissListener {
+                    override fun onDismiss() {
+                        LocationHelper.requestPermissions(requireActivity())
+                    }
+                },
+                animType = PopupAnimTypes.WARNING
+            )
+        }
+    }
+
+
 
     private var cameraLauncher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
@@ -147,20 +169,6 @@ class AddNewFromFragment :
         }
     }
 
-    @Deprecated("Deprecated in Java")
-    @RequiresApi(Build.VERSION_CODES.S)
-    override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<String>,
-        grantResults: IntArray
-    ) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        if (requestCode == LocationHelper.LOCATION_REQUEST_CODE) {
-            if ((grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
-                getCurrentLocation()
-            }
-        }
-    }
 
     override fun onClick(p0: View?) {
         when(p0?.id){
@@ -241,6 +249,12 @@ class AddNewFromFragment :
 
         viewModel.insertNewShift(latitude,longitude,imageString,shiftType)
     }
+
+    override fun onPause() {
+        super.onPause()
+
+    }
+
 
 
 }

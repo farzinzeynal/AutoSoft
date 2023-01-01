@@ -65,14 +65,17 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
     }
 
     private fun setDatas(data: LastShifData?) {
-        views.lastShiftDate.text = "Sonuncu əməliyyatın tarixi: \n"+data?.date
-        Constants.currentShifType = data?.type ?: ""
-        if(data?.type=="1"){
-            views.btnStartForm.text = "İşə başla"
+        if(data?.date!=null){
+            views.lastShiftDate.text = "Sonuncu əməliyyatın tarixi: \n"+data?.date
+            Constants.currentShifType = data?.type ?: ""
+            if(data?.type=="2"){
+                views.btnStartForm.text = "İşə başla"
+            }
+            else {
+                views.btnStartForm.text = "İşi bitir"
+            }
         }
-        else {
-            views.btnStartForm.text = "İşi bitir"
-        }
+
     }
 
     private fun initViews() {
