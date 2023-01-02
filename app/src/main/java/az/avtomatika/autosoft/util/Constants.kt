@@ -7,6 +7,7 @@ object Constants {
 
     //request codes
     var FACE_MATCHING_REQUEST_CODE = 1201
+    var LOCATION_SOURCE_SETTINGS_CODE = 1401
 
     //api values
     var currentLang = "az"

@@ -1,11 +1,14 @@
 package az.avtomatika.autosoft.ui.unregister.login
 
+
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
 import android.os.Build
 import android.os.Bundle
 import android.os.Handler
+import android.text.InputFilter
+import android.text.InputFilter.AllCaps
 import android.view.View
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
@@ -52,9 +55,10 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(FragmentLoginBinding::i
 
 
     private fun loginUser(username: String, password: String) {
-        if (username.isNotEmpty() && password.isNotEmpty()) {
+        if (!username.isEmpty() && !password.isEmpty()) {
             if (username.length < 7) {
-                views.inputUsername.setError("Mininum 7 simvol olmalıdır!")
+                //views.inputFincode.error = "Mininum 7 simvol olmalıdır!"
+                views.inputFincode.error = " "
             } else {
                 viewModel.loginUser(username, password)
             }
@@ -69,12 +73,11 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(FragmentLoginBinding::i
 
     private fun initViews() {
         views.btnLogin.setOnClickListener(this)
-        views.inputPassword.setInputTypePassWord()
-        views.inputPassword.setHint("FIN kod")
-        views.inputUsername.setHint("Parol")
-        views.textVersionName.text = BuildConfig.VERSION_NAME
-
-
+        //views.inputFincode.editText?.setText("QAZ3121")
+        //views.inputPassword.editText?.setText("123456Ab")
+        views.btnLogin.setOnClickListener(this)
+        views.textVersionName.text = "© avtomatika.az \nv"+BuildConfig.VERSION_NAME
+        views.inputFincode.editText?.filters = (arrayOf<InputFilter>(AllCaps()))
     }
 
     private fun startFaceMatching() {
@@ -100,6 +103,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(FragmentLoginBinding::i
 
     private fun initProfileDataApi() {
         viewModel.profileInfoLiveData.observe(viewLifecycleOwner) {
+            BaseActivity.loadingDown()
             when (it) {
                 is NetworkResult.Success -> {
                     if (it.response?.data != null) {
@@ -130,7 +134,6 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(FragmentLoginBinding::i
     @RequiresApi(Build.VERSION_CODES.N)
     private fun initLoginApi() {
         viewModel.loginResponse.observe(viewLifecycleOwner) {
-            BaseActivity.loadingDown()
             when (it) {
                 is NetworkResult.Success -> {
                     if (it.response?.data != null) {
@@ -139,6 +142,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(FragmentLoginBinding::i
                             getProfileData()
                         }, 100)
                     } else {
+                        BaseActivity.loadingDown()
                         MainPopupDialog.infoAlert(
                             requireContext(),
                             MainPopupDialog.InfoDatas("Diqqət", it.response?.error?.message ?: ""),
@@ -147,6 +151,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(FragmentLoginBinding::i
                     }
                 }
                 is NetworkResult.Error -> {
+                    BaseActivity.loadingDown()
                     MainPopupDialog.infoAlert(
                         requireContext(),
                         MainPopupDialog.InfoDatas("Diqqət", it.message.toString()),
@@ -195,7 +200,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(FragmentLoginBinding::i
 
     @RequiresApi(Build.VERSION_CODES.N)
     private fun getProfileData() {
-        viewModel.getProfileDatas(views.inputUsername.getText())
+        viewModel.getProfileDatas(views.inputFincode.editText?.text.toString())
     }
 
     private fun saveToken(response: LoginResponseModel?) {
@@ -230,7 +235,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(FragmentLoginBinding::i
     override fun onClick(p0: View?) {
         when (p0?.id) {
             R.id.btnLogin -> {
-                loginUser(views.inputUsername.getText(), views.inputPassword.getText())
+                loginUser(views.inputFincode.editText?.text.toString(), views.inputPassword.editText?.text.toString())
             }
         }
     }

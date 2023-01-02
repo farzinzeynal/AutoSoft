@@ -49,7 +49,6 @@ class LoginViewModel(private val repository: LoginRepository) : ViewModel() {
             os_version = Constants.OS_Version
         )
         repository.login(loginRequest).collect { values ->
-            BaseActivity.loadingDown()
             _loginResponse.value = values
         }
     }

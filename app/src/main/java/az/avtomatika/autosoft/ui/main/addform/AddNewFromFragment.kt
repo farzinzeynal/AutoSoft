@@ -4,7 +4,6 @@ import android.Manifest
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.os.Build
 import android.os.Bundle
@@ -15,30 +14,30 @@ import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
-import androidx.navigation.Navigation
 import az.avtomatika.autosoft.R
 import az.avtomatika.autosoft.base.BaseFragment
 import az.avtomatika.autosoft.databinding.FragmentAddNewFormBinding
 import az.avtomatika.autosoft.ui.main.face_matching.FaceMatchingActivity
 import az.avtomatika.autosoft.util.Constants
 import az.avtomatika.autosoft.util.Constants.FACE_MATCHING_REQUEST_CODE
+import az.avtomatika.autosoft.util.Constants.LOCATION_SOURCE_SETTINGS_CODE
 import az.avtomatika.autosoft.util.NetworkResult
 import az.avtomatika.autosoft.util.PopupAnimTypes
-import az.avtomatika.autosoft.util.helper.LocationHelper
 import az.avtomatika.autosoft.util.UtilFunctions
 import az.avtomatika.autosoft.util.UtilFunctions.encodeBitmapToBase64
 import az.avtomatika.autosoft.util.core.MainPopupDialog
 import az.avtomatika.autosoft.util.helper.CameraHelper
-import org.json.JSONObject
+import az.avtomatika.autosoft.util.helper.LocationHelper
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class AddNewFromFragment :
-    BaseFragment<FragmentAddNewFormBinding>(FragmentAddNewFormBinding::inflate), View.OnClickListener {
+    BaseFragment<FragmentAddNewFormBinding>(FragmentAddNewFormBinding::inflate),
+    View.OnClickListener {
 
     private var latitude = ""
     private var longitude = ""
     private var shiftType = ""
-    private var imageToSend: Bitmap? =null
+    private var imageToSend: Bitmap? = null
 
     private val viewModel: FormViewModel by viewModel()
 
@@ -47,20 +46,20 @@ class AddNewFromFragment :
         super.onViewCreated(view, savedInstanceState)
         initViews()
         initInsertShiftApi()
-        requestPermissionLauncher.launch(Manifest.permission.ACCESS_FINE_LOCATION)
+        checPermissions()
 
-        shiftType = if(Constants.currentShifType =="1") "2" else "1"
+        shiftType = if (Constants.currentShifType == "1") "2" else "1"
         /*arguments?.let {
             shiftType = it.getString("shiftType") ?: ""
         }*/
     }
 
     private fun initInsertShiftApi() {
-        viewModel.inserNewShiftLiveData.observe(viewLifecycleOwner){
+        viewModel.inserNewShiftLiveData.observe(viewLifecycleOwner) {
             when (it) {
                 is NetworkResult.Success -> {
                     if (it.response?.data != null) {
-                       showSucces()
+                        showSucces()
                     } else {
                         MainPopupDialog.infoAlert(
                             requireContext(),
@@ -86,7 +85,8 @@ class AddNewFromFragment :
     private fun showSucces() {
         MainPopupDialog.infoAlert(
             requireContext(),
-            MainPopupDialog.InfoDatas("Uğurlu əməliyyat", "Form uğurla göndərildi"),object : MainPopupDialog.InfoPopUpDismissListener {
+            MainPopupDialog.InfoDatas("Uğurlu əməliyyat", "Form uğurla göndərildi"),
+            object : MainPopupDialog.InfoPopUpDismissListener {
                 override fun onDismiss() {
                     requireActivity().onBackPressed()
                 }
@@ -102,37 +102,78 @@ class AddNewFromFragment :
     }
 
 
-    private fun checkButtonEnabled(){
-        if(imageToSend!=null){
+    private fun checkButtonEnabled() {
+        if (imageToSend != null) {
             views.btnSendForm.isEnabled = true
             views.btnSendForm.alpha = 1.0F
-        }
-        else{
+        } else {
             views.btnSendForm.isEnabled = false
             views.btnSendForm.alpha = 0.5F
         }
     }
 
-    @RequiresApi(Build.VERSION_CODES.S)
-    private var requestPermissionLauncher = registerForActivityResult(
-        ActivityResultContracts.RequestPermission()
-    ) { isGranted ->
-        if (isGranted) {
-          getCurrentLocation()
-        } else {
-            MainPopupDialog.infoAlert(
-                requireContext(),
-                MainPopupDialog.InfoDatas("Diqqət", "Form göndərmək üçün məkan məlumatlarını alınmasına icazə verin!"),
-                object : MainPopupDialog.InfoPopUpDismissListener {
-                    override fun onDismiss() {
-                        LocationHelper.requestPermissions(requireActivity())
-                    }
-                },
-                animType = PopupAnimTypes.WARNING
-            )
+    @RequiresApi(Build.VERSION_CODES.N)
+    val locationPermissionRequest = registerForActivityResult(
+        ActivityResultContracts.RequestMultiplePermissions()
+    ) { permissions ->
+        when {
+            permissions.getOrDefault(Manifest.permission.ACCESS_FINE_LOCATION, false) -> {
+                getCurrentLocation()
+            }
+            permissions.getOrDefault(Manifest.permission.ACCESS_COARSE_LOCATION, false) -> {
+                getCurrentLocation()
+            }
+            else -> {
+                showPermissionWarning()
+            }
         }
     }
 
+    private fun showPermissionWarning() {
+        MainPopupDialog.infoAlert(
+            requireContext(),
+            MainPopupDialog.InfoDatas(
+                "Uğurlu əməliyyat",
+                "Form göndərmək üçün məkan məlumatlarını alınmasına icazə verin!"
+            ), object : MainPopupDialog.InfoPopUpDismissListener {
+                @RequiresApi(Build.VERSION_CODES.N)
+                override fun onDismiss() {
+                }
+            },
+            animType = PopupAnimTypes.WARNING
+        )
+    }
+
+
+    @RequiresApi(Build.VERSION_CODES.N)
+    private fun checPermissions() {
+        locationPermissionRequest.launch(
+            arrayOf(
+                Manifest.permission.ACCESS_FINE_LOCATION,
+                Manifest.permission.ACCESS_COARSE_LOCATION
+            )
+        )
+    }
+
+    /*  @RequiresApi(Build.VERSION_CODES.S)
+      private var requestPermissionLauncher = registerForActivityResult(
+          ActivityResultContracts.RequestPermission()
+      ) { isGranted ->
+          if (isGranted) {
+            getCurrentLocation()
+          } else {
+              MainPopupDialog.infoAlert(
+                  requireContext(),
+                  MainPopupDialog.InfoDatas("Diqqət", "Form göndərmək üçün məkan məlumatlarını alınmasına icazə verin!"),
+                  object : MainPopupDialog.InfoPopUpDismissListener {
+                      override fun onDismiss() {
+                          LocationHelper.requestPermissions(requireActivity())
+                      }
+                  },
+                  animType = PopupAnimTypes.WARNING
+              )
+          }
+      }*/
 
 
     private var cameraLauncher =
@@ -160,9 +201,13 @@ class AddNewFromFragment :
                 }
 
             } else {
-                Toast.makeText(requireContext(), "Zəhmət olmasa GPS-i aktiv edin", Toast.LENGTH_LONG).show()
+                Toast.makeText(
+                    requireContext(),
+                    "Zəhmət olmasa GPS-i aktiv edin",
+                    Toast.LENGTH_LONG
+                ).show()
                 val intent = Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
-                startActivity(intent)
+                startActivityForResult(intent, LOCATION_SOURCE_SETTINGS_CODE)
             }
         } else {
             LocationHelper.requestPermissions(requireActivity())
@@ -171,17 +216,17 @@ class AddNewFromFragment :
 
 
     override fun onClick(p0: View?) {
-        when(p0?.id){
-            R.id.buttonRetry ->{
+        when (p0?.id) {
+            R.id.buttonRetry -> {
                 val takePicture = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
                 cameraLauncher.launch(takePicture)
             }
 
-            R.id.btnSendForm ->{
+            R.id.btnSendForm -> {
                 checkDatas()
             }
 
-            R.id.addImageLayout ->{
+            R.id.addImageLayout -> {
                 startCapture()
             }
 
@@ -189,10 +234,9 @@ class AddNewFromFragment :
     }
 
     private fun checkDatas() {
-        if (latitude.isEmpty() && longitude.isEmpty()){
+        if (latitude.isEmpty() && longitude.isEmpty()) {
             showError("Mekan melumatları alına bilmədi !")
-        }
-        else{
+        } else {
             startMatching()
         }
     }
@@ -214,8 +258,7 @@ class AddNewFromFragment :
         if (CameraHelper.checkCameraPermissions(requireActivity())) {
             val takePicture = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
             cameraLauncher.launch(takePicture)
-        }
-        else{
+        } else {
             CameraHelper.requestCameraPermissions(requireActivity())
         }
     }
@@ -224,37 +267,47 @@ class AddNewFromFragment :
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
-        if (resultCode == AppCompatActivity.RESULT_OK && requestCode == FACE_MATCHING_REQUEST_CODE) {
-            if (data?.hasExtra("isAuthenticated") == true) {
-                val isAuth = data.getBooleanExtra("isAuthenticated", false)
-                checkAuth(isAuth)
+        if (resultCode == AppCompatActivity.RESULT_OK) {
+
+            when (requestCode) {
+                FACE_MATCHING_REQUEST_CODE -> {
+                    if (data?.hasExtra("isAuthenticated") == true) {
+                        val isAuth = data.getBooleanExtra("isAuthenticated", false)
+                        checkAuth(isAuth)
+                    }
+                }
+
+                LOCATION_SOURCE_SETTINGS_CODE -> {
+                    getCurrentLocation()
+                }
             }
         }
 
+
     }
+
 
     @RequiresApi(Build.VERSION_CODES.N)
     private fun checkAuth(isAuth: Boolean) {
-        if (isAuth){
+        if (isAuth) {
             sendForm(latitude, longitude, imageToSend)
-        }
-        else{
+        } else {
             showError("Biometrik məlumatlar doğrulanmadı !")
         }
     }
 
     @RequiresApi(Build.VERSION_CODES.N)
     private fun sendForm(latitude: String, longitude: String, imageToSend: Bitmap?) {
-        val imageString = imageToSend?.let { encodeBitmapToBase64(it,Bitmap.CompressFormat.JPEG,100) } ?: ""
+        val imageString =
+            imageToSend?.let { encodeBitmapToBase64(it, Bitmap.CompressFormat.JPEG, 100) } ?: ""
 
-        viewModel.insertNewShift(latitude,longitude,imageString,shiftType)
+        viewModel.insertNewShift(latitude, longitude, imageString, shiftType)
     }
 
     override fun onPause() {
         super.onPause()
 
     }
-
 
 
 }
